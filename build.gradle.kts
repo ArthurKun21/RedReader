@@ -83,12 +83,17 @@ android {
 		additionalParameters.add("--no-version-vectors")
 	}
 
-	buildTypes.forEach {
-		it.isMinifyEnabled = true
-		it.isShrinkResources = false
-
-		it.proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-	}
+	buildTypes {
+        getByName("debug") {
+            isMinifyEnabled = true
+            applicationIdSuffix = ".preview"
+			versionNameSuffix = "-preview"
+        }
+        getByName("release") {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+    }
 
 	compileOptions {
 		encoding = "UTF-8"
