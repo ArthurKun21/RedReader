@@ -40,14 +40,14 @@ jobs:
         runs-on: macos-14
         steps:
             - name: Tag Version
-                run: |
+              run: |
                 echo "VERSION_TAG=${{ github.run_number }}" >> $GITHUB_ENV
 
             - name: Create Tag
-                id: create_tag
-                uses: actions/github-script@v6
-                with:
-                script: |
+              id: create_tag
+              uses: actions/github-script@v6
+              with:
+              script: |
                     const run_tag = `${{ github.run_number }}`; 
                     github.rest.git.createRef({
                     owner: context.repo.owner,
@@ -56,18 +56,18 @@ jobs:
                     sha: context.sha
                     })
             - uses: actions/download-artifact@v4
-                with:
+              with:
                 name: RedReader-debug.apk
 
             - name: Rename apk
-                run: mv RedReader-debug.apk RedReader-debug-${{ env.VERSION_TAG }}.apk
+              run: mv RedReader-debug.apk RedReader-debug-${{ env.VERSION_TAG }}.apk
 
             - name: Zipped APK
-                run: zip -r RedReader-debug-${{ env.VERSION_TAG }}.zip RedReader-debug-${{ env.VERSION_TAG }}.apk
+              run: zip -r RedReader-debug-${{ env.VERSION_TAG }}.zip RedReader-debug-${{ env.VERSION_TAG }}.apk
 
             - name: Create tagged Release
-                uses: ncipollo/release-action@v1.13.0
-                with:
+              uses: ncipollo/release-action@v1.13.0
+              with:
                 generateReleaseNotes: true
                 artifacts: fga-preview-${{ env.VERSION_TAG }}.zip
                 tag: ${{ env.VERSION_TAG }}
