@@ -83,12 +83,31 @@ android {
 		additionalParameters.add("--no-version-vectors")
 	}
 
-	buildTypes.forEach {
-		it.isMinifyEnabled = true
-		it.isShrinkResources = false
-		it.versionNameSuffix = "-alpha"
-		it.proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-	}
+	buildTypes {
+        getByName("debug") {
+            isDebuggable = true
+            applicationIdSuffix = ".canary"
+        }
+        getByName("release") {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        create("preview") {
+            initWith(getByName("release"))
+            buildConfigField("boolean", "PREVIEW", "true")
+            matchingFallbacks.add("release")
+
+            applicationIdSuffix = ".preview"
+            versionNameSuffix = "-preview"
+
+
+            ndk {
+                //noinspection ChromeOsAbiSupport
+                abiFilters.add("armeabi-v7a")
+                abiFilters.add("arm64-v8a")
+            }
+        }
+    }
 
 	compileOptions {
 		encoding = "UTF-8"
