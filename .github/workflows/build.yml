@@ -40,6 +40,7 @@ jobs:
     release:
         needs: ci
         runs-on: macos-14
+        if: github.ref == 'refs/heads/master'
         steps:
             - name: Tag Version
               run: |
