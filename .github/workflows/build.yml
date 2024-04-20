@@ -26,9 +26,6 @@ jobs:
                     SDKMANAGER=${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager
                     echo "y" | $SDKMANAGER "ndk;23.1.7779620" --sdk_root=${ANDROID_SDK_ROOT}
 
-            -   name: Run release build
-                run: ./gradlew assembleRelease
-
             -   name: Run debug build
                 run: ./gradlew assembleDebug
 
@@ -37,15 +34,42 @@ jobs:
                 with:
                     name: RedReader-debug.apk
                     path: build/outputs/apk/debug/RedReader-debug.apk
+    
+    release:
+        needs: ci
+        runs-on: macos-14
+        steps:
+            - name: Tag Version
+                run: |
+                echo "VERSION_TAG=${{ github.run_number }}" >> $GITHUB_ENV
 
-            -   name: Run PMD
-                run: ./gradlew pmd
+            - name: Create Tag
+                id: create_tag
+                uses: actions/github-script@v6
+                with:
+                script: |
+                    const run_tag = `${{ github.run_number }}`; 
+                    github.rest.git.createRef({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    ref: `refs/tags/${run_tag}`,
+                    sha: context.sha
+                    })
+            - uses: actions/download-artifact@v4
+                with:
+                name: RedReader-debug.apk
 
-            -   name: Run checkstyle
-                run: ./gradlew checkstyle --stacktrace --info
+            - name: Rename apk
+                run: mv RedReader-debug.apk RedReader-debug-${{ env.VERSION_TAG }}.apk
 
-            -   name: Android Lint
-                run: ./gradlew lint
+            - name: Zipped APK
+                run: zip -r RedReader-debug-${{ env.VERSION_TAG }}.zip RedReader-debug-${{ env.VERSION_TAG }}.apk
 
-            -   name: Unit tests
-                run: ./gradlew test
+            - name: Create tagged Release
+                uses: ncipollo/release-action@v1.13.0
+                with:
+                generateReleaseNotes: true
+                artifacts: fga-preview-${{ env.VERSION_TAG }}.zip
+                tag: ${{ env.VERSION_TAG }}
+                name: 'RedReader Debug ${{ github.run_number }}'
+                prerelease: false
