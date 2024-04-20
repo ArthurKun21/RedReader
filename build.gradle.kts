@@ -86,26 +86,12 @@ android {
 	buildTypes {
         getByName("debug") {
             isDebuggable = true
-            applicationIdSuffix = ".canary"
+            applicationIdSuffix = ".preview"
+			versionNameSuffix = "-preview"
         }
         getByName("release") {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-        create("preview") {
-            initWith(getByName("release"))
-            buildConfigField("boolean", "PREVIEW", "true")
-            matchingFallbacks.add("release")
-
-            applicationIdSuffix = ".preview"
-            versionNameSuffix = "-preview"
-
-
-            ndk {
-                //noinspection ChromeOsAbiSupport
-                abiFilters.add("armeabi-v7a")
-                abiFilters.add("arm64-v8a")
-            }
         }
     }
 
