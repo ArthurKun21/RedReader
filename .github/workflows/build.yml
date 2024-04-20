@@ -47,7 +47,7 @@ jobs:
               id: create_tag
               uses: actions/github-script@v6
               with:
-              script: |
+                script: |
                     const run_tag = `${{ github.run_number }}`; 
                     github.rest.git.createRef({
                     owner: context.repo.owner,
