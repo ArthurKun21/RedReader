@@ -22,7 +22,7 @@ jobs:
                     java-version: 17
                     cache: 'gradle'
 
-            -   uses: gradle/wrapper-validation-action@v1
+            -   uses: gradle/wrapper-validation-action@v3
 
             -   name: Install NDK
                 run: |
