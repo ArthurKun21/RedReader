@@ -35,4 +35,4 @@ jobs:
                 uses: actions/upload-artifact@v4
                 with:
                     name: RedReader-debug.apk
-                    path: src/build/outputs/apk/preview/app-preview.apk
+                    path: ./src/build/outputs/apk/preview/app-preview.apk
