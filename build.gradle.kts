@@ -85,7 +85,7 @@ android {
 
 	buildTypes {
         getByName("debug") {
-            isDebuggable = true
+            isMinifyEnabled = true
             applicationIdSuffix = ".preview"
 			versionNameSuffix = "-preview"
         }
