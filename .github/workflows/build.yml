@@ -3,7 +3,18 @@ name: CI
 on:
     workflow_dispatch:
     push:
+        branches:
+        - master
+        - dev
+        paths-ignore:
+        - '.idea/**'
+        - '**/*.md'
+        - '.gitignore'
     pull_request:
+        paths-ignore:
+        - '.idea/**'
+        - '**/*.md'
+        - '.gitignore'
     schedule:
         -   cron: '30 5 * * *'
 
