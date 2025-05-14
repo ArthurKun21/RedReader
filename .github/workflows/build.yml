@@ -39,8 +39,6 @@ jobs:
 
             -   name: Set up Gradle
                 uses: gradle/actions/setup-gradle@v4
-                with:
-                    cache-read-only: ${{ github.event_name == 'pull_request' }}
 
             -   name: Run assemble ${{ matrix.build }}
                 run: ./gradlew assemble${{ matrix.build }} --parallel
