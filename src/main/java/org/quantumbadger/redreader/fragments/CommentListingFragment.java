@@ -771,9 +771,9 @@ public class CommentListingFragment extends RRFragment
 				item.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
 
 				// TODO: Investigate why this doesn't work
-//				item.performAccessibilityAction(
-//						AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
-//						null);
+				// item.performAccessibilityAction(
+				// 		AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
+				// 		null);
 			}
 		}, 800);
 	}
