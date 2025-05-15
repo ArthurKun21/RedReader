@@ -1,22 +1,22 @@
 name: CI
 
 on:
-    workflow_dispatch:
-    push:
-        branches:
-        - master
-        - dev
-        paths-ignore:
-        - '.idea/**'
-        - '**/*.md'
-        - '.gitignore'
-    pull_request:
-        paths-ignore:
-        - '.idea/**'
-        - '**/*.md'
-        - '.gitignore'
-    schedule:
-        -   cron: '30 5 * * *'
+  workflow_dispatch:
+  push:
+    branches:
+    - master
+    - dev
+    paths-ignore:
+    - '.idea/**'
+    - '**/*.md'
+    - '.gitignore'
+  pull_request:
+    paths-ignore:
+    - '.idea/**'
+    - '**/*.md'
+    - '.gitignore'
+  schedule:
+    -   cron: '30 5 * * *'
 
 jobs:
   ci:
@@ -26,7 +26,7 @@ jobs:
       matrix:
         build: [debug, release]
     steps:
-      -  uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Java 17
         uses: actions/setup-java@v4
