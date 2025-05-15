@@ -19,44 +19,55 @@ on:
         -   cron: '30 5 * * *'
 
 jobs:
-    ci:
-        runs-on: macos-latest
-        strategy:
-            fail-fast: false
-            matrix:
-                build: [debug, release]
-        steps:
-            -   uses: actions/checkout@v4
+  ci:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build: [debug, release]
+    steps:
+      -  uses: actions/checkout@v4
 
-            -   name: Set up Java 17
-                uses: actions/setup-java@v4
-                with:
-                    distribution: temurin
-                    java-version: 17
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
 
-            -   name: Validate Gradle wrapper
-                uses: gradle/actions/wrapper-validation@v4
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v4
 
-            -   name: Set up Gradle
-                uses: gradle/actions/setup-gradle@v4
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
 
-            -   name: Run assemble ${{ matrix.build }}
-                run: ./gradlew assemble${{ matrix.build }} --parallel
+      - name: Run assemble ${{ matrix.build }}
+        run: ./gradlew assemble${{ matrix.build }} --parallel
 
-            -   name: Upload ${{ matrix.build }} artifact to GitHub
-                uses: actions/upload-artifact@v4
-                with:
-                    name: RedReader-${{ matrix.build }}-${{ github.run_number }}
-                    path: build/outputs/apk/${{ matrix.build }}/RedReader-${{ matrix.build }}.apk
+      - name: Upload ${{ matrix.build }} artifact to GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: RedReader-${{ matrix.build }}-${{ github.run_number }}
+          path: build/outputs/apk/${{ matrix.build }}/RedReader-${{ matrix.build }}.apk
 
-            -   name: Run PMD
-                run: ./gradlew pmd
+  checks:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
 
-            -   name: Run checkstyle
-                run: ./gradlew checkstyle --stacktrace --info
+    - name: Validate Gradle Wrapper
+      uses: gradle/actions/wrapper-validation@v4
+    
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v4
+    
+    - name: Run PMD
+      run: ./gradlew pmd
 
-            -   name: Android Lint
-                run: ./gradlew lint
+    - name: Run checkstyle
+      run: ./gradlew checkstyle --stacktrace --info
 
-            -   name: Unit tests
-                run: ./gradlew test
+    - name: Android Lint
+      run: ./gradlew lint
+
+    - name: Unit tests
+      run: ./gradlew test
