@@ -417,8 +417,9 @@ object UserProfileDialog {
 		) { resultCode: Int, data: Intent? ->
 			if (data != null) {
 				if (resultCode == 123 && data.hasExtra("url")) {
-					val uri = data.getStringExtra("url").toUri()
-					completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
+					data.getStringExtra("url")?.toUri()?.let { uri ->
+						completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
+					}
 				}
 			}
 		}
