@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RedReader-${{ github.run_number }}
-          path: app/build/outputs/apk/ci/RedReader-ci.apk
+          path: app/build/outputs/apk/ci/app-ci.apk
 
   checks:
     runs-on: ubuntu-latest
