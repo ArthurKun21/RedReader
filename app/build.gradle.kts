@@ -123,8 +123,8 @@ android {
 
 		error.add("DefaultLocale")
 
-		baseline = file("config/lint/lint-baseline.xml")
-		lintConfig = file("config/lint/lint.xml")
+		baseline = file("${project.rootDir}/config/lint/lint-baseline.xml")
+		lintConfig = file("${project.rootDir}/config/lint/lint.xml")
 	}
 
 	packaging {
