@@ -10,7 +10,7 @@ ndk = "28.1.13356709"
 
 androidx-annotation = "1.9.1"
 androidx-appcompat = "1.7.0"
-androidx-constraintlayout = "2.1.4"
+androidx-constraintlayout = "2.2.1"
 androidx-core = "1.16.0"
 androidx-fragment = "1.7.1"
 androidx-preference = "1.2.1"
