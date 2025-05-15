@@ -14,7 +14,7 @@ androidx-constraintlayout = "2.1.4"
 androidx-core = "1.16.0"
 androidx-fragment = "1.7.1"
 androidx-preference = "1.2.1"
-androidx-recyclerview = "1.3.2"
+androidx-recyclerview = "1.4.0"
 androidx-swiperefreshlayout = "1.1.0"
 androidx-window = "1.3.0"
 
