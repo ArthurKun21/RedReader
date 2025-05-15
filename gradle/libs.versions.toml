@@ -34,7 +34,7 @@ pmd = "6.55.0"
 zstd = "1.5.7-3"
 
 junit = "4.13.2"
-androidx-test-core = "1.5.0"
+androidx-test-core = "1.6.1"
 androidx-test-espresso = "3.6.1"
 androidx-test-rules = "1.5.0"
 androidx-test-junit = "1.1.5"
