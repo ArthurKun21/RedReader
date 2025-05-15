@@ -60,10 +60,13 @@ jobs:
       run: ./gradlew pmd
 
     - name: Run checkstyle
+      if: ${{ !cancelled() }}
       run: ./gradlew checkstyle --stacktrace --info
 
     - name: Android Lint
+      if: ${{ !cancelled() }}
       run: ./gradlew lint
 
     - name: Unit tests
+      if: ${{ !cancelled() }}
       run: ./gradlew test
