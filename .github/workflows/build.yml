@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RedReader-${{ github.run_number }}
-          path: build/outputs/apk/release/RedReader-release.apk
+          path: build/outputs/apk/release/RedReader-release-unsigned.apk
 
   checks:
     runs-on: ubuntu-latest
