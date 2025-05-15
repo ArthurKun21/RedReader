@@ -50,7 +50,7 @@ jobs:
           path: build/outputs/apk/${{ matrix.build }}/RedReader-${{ matrix.build }}.apk
 
   checks:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
 
