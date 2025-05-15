@@ -3,13 +3,28 @@ name: CI
 on:
     workflow_dispatch:
     push:
+        branches:
+        - master
+        - dev
+        paths-ignore:
+        - '.idea/**'
+        - '**/*.md'
+        - '.gitignore'
     pull_request:
+        paths-ignore:
+        - '.idea/**'
+        - '**/*.md'
+        - '.gitignore'
     schedule:
         -   cron: '30 5 * * *'
 
 jobs:
     ci:
-        runs-on: ubuntu-latest
+        runs-on: macos-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                build: [debug, release]
         steps:
             -   uses: actions/checkout@v4
 
@@ -20,31 +35,19 @@ jobs:
                     java-version: 17
 
             -   name: Validate Gradle wrapper
-                uses: gradle/actions/wrapper-validation@v3
+                uses: gradle/actions/wrapper-validation@v4
 
             -   name: Set up Gradle
-                uses: gradle/actions/setup-gradle@v3
-                with:
-                    cache-read-only: ${{ github.event_name == 'pull_request' }}
+                uses: gradle/actions/setup-gradle@v4
 
-            -   name: Install NDK
-                run: |
-                    SDKMANAGER="${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
-                    NDK_VERSION="$(yq .versions.ndk gradle/libs.versions.toml)"
-                    echo "Installing NDK ${NDK_VERSION}"
-                    echo "y" | "$SDKMANAGER" "ndk;$NDK_VERSION" --sdk_root="${ANDROID_SDK_ROOT}"
+            -   name: Run assemble ${{ matrix.build }}
+                run: ./gradlew assemble${{ matrix.build }} --parallel
 
-            -   name: Run release build
-                run: ./gradlew assembleRelease
-
-            -   name: Run debug build
-                run: ./gradlew assembleDebug
-
-            -   name: Upload artifact to GitHub
+            -   name: Upload ${{ matrix.build }} artifact to GitHub
                 uses: actions/upload-artifact@v4
                 with:
-                    name: RedReader-debug.apk
-                    path: build/outputs/apk/debug/RedReader-debug.apk
+                    name: RedReader-${{ matrix.build }}-${{ github.run_number }}
+                    path: build/outputs/apk/${{ matrix.build }}/RedReader-${{ matrix.build }}.apk
 
             -   name: Run PMD
                 run: ./gradlew pmd
