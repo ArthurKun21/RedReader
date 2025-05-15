@@ -30,7 +30,7 @@ data class UriString(
 ) : Parcelable {
 	override fun toString() = value
 
-	fun toUri() = Uri.parse(value)
+	fun toUri(): Uri? = Uri.parse(value)
 
 	companion object {
 		@JvmStatic
