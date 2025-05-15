@@ -8,12 +8,6 @@ plugins {
 	alias(libs.plugins.compose.compiler)
 	pmd
 	checkstyle
-
-	// If plugin is used in multiple subprojects then it needs to be imported with apply(false) in the root project,
-	// otherwise bad things will happen.
-	// The reason is that Gradle isolates class loaders between subprojects and some plugins can't handle it.
-	// Root project's class loader however is available to all subprojects and importing plugin here (but not applying it) solves the issue
-	alias(libs.plugins.kotlin.jvm) apply false
 }
 
 dependencies {
@@ -129,8 +123,8 @@ android {
 
 		error.add("DefaultLocale")
 
-		baseline = file("config/lint/lint-baseline.xml")
-		lintConfig = file("config/lint/lint.xml")
+		baseline = file("${project.rootDir}/config/lint/lint-baseline.xml")
+		lintConfig = file("${project.rootDir}/config/lint/lint.xml")
 	}
 
 	packaging {
